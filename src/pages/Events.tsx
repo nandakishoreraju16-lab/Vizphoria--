@@ -1,7 +1,9 @@
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Calendar, MapPin, Users } from "lucide-react";
+import { Calendar, MapPin, Users, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
+import ScrollReveal from "@/components/ScrollReveal";
+import OrnamentalDivider from "@/components/OrnamentalDivider";
 
 const events = [
   {
@@ -80,60 +82,89 @@ const events = [
 
 const Events = () => {
   return (
-    <div className="min-h-screen bg-gradient-subtle py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-subtle py-12 relative overflow-hidden">
+      {/* Background decorative elements */}
+      <div className="absolute top-20 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+      <div className="absolute bottom-20 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
-        <div className="text-center mb-12 animate-fade-in">
-          <h1 className="text-5xl md:text-6xl font-playfair font-bold text-primary mb-4">
-            Events
-          </h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
-            Discover the diverse competitions and performances at Vizphoria
-          </p>
-        </div>
+        <ScrollReveal>
+          <div className="text-center mb-16">
+            <div className="inline-block mb-4">
+              <span className="text-secondary text-sm font-semibold tracking-widest uppercase">Experience Excellence</span>
+            </div>
+            <h1 className="text-6xl md:text-8xl font-playfair font-black text-primary mb-6 glowing-text">
+              Events
+            </h1>
+            <p className="text-2xl text-muted-foreground max-w-3xl mx-auto">
+              Discover the diverse competitions and performances at Vizphoria
+            </p>
+          </div>
+        </ScrollReveal>
+        
+        <OrnamentalDivider />
 
-        {/* Events Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Events Grid - Enhanced */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-12">
           {events.map((event, index) => (
-            <Card
-              key={index}
-              className="hover-lift ornate-border animate-fade-in-scale bg-card"
-              style={{ animationDelay: `${index * 0.1}s` }}
-            >
-              <CardHeader>
-                <div className="flex items-start justify-between mb-2">
-                  <span className="text-sm font-medium text-secondary bg-secondary/10 px-3 py-1 rounded-full">
-                    {event.category}
-                  </span>
-                  <span className="text-sm font-semibold text-primary">
-                    Prize: {event.prize}
-                  </span>
-                </div>
-                <CardTitle className="text-2xl font-playfair">{event.title}</CardTitle>
-                <CardDescription className="text-base">{event.description}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-3 mb-4">
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <Calendar className="w-4 h-4 mr-2 text-primary" />
-                    {event.date}
+            <ScrollReveal key={index} delay={index * 100}>
+              <Card className="group relative overflow-hidden hover-lift ornate-border bg-card marble-texture border-2 border-border hover:border-secondary/50 transition-all duration-500 h-full">
+                {/* Glowing gradient overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                
+                <CardHeader className="relative">
+                  <div className="flex items-start justify-between mb-4">
+                    <span className="text-sm font-semibold text-secondary bg-secondary/10 px-4 py-2 rounded-full border border-secondary/20 backdrop-blur-sm">
+                      {event.category}
+                    </span>
+                    <div className="flex items-center gap-2 text-primary font-bold">
+                      <Sparkles className="w-4 h-4" />
+                      <span className="text-lg">{event.prize}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <MapPin className="w-4 h-4 mr-2 text-primary" />
-                    {event.venue}
+                  
+                  <CardTitle className="text-3xl font-playfair font-bold group-hover:text-primary transition-colors mb-3">
+                    {event.title}
+                  </CardTitle>
+                  <CardDescription className="text-base leading-relaxed">
+                    {event.description}
+                  </CardDescription>
+                </CardHeader>
+                
+                <CardContent className="relative">
+                  <div className="space-y-4 mb-6">
+                    <div className="flex items-center text-base text-muted-foreground group-hover:text-foreground transition-colors">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                        <Calendar className="w-5 h-5 text-primary" />
+                      </div>
+                      <span className="font-medium">{event.date}</span>
+                    </div>
+                    <div className="flex items-center text-base text-muted-foreground group-hover:text-foreground transition-colors">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                        <MapPin className="w-5 h-5 text-primary" />
+                      </div>
+                      <span className="font-medium">{event.venue}</span>
+                    </div>
+                    <div className="flex items-center text-base text-muted-foreground group-hover:text-foreground transition-colors">
+                      <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3">
+                        <Users className="w-5 h-5 text-primary" />
+                      </div>
+                      <span className="font-medium">{event.participants}</span>
+                    </div>
                   </div>
-                  <div className="flex items-center text-sm text-muted-foreground">
-                    <Users className="w-4 h-4 mr-2 text-primary" />
-                    {event.participants}
-                  </div>
-                </div>
-                <Link to="/register">
-                  <Button className="w-full bg-gradient-gold text-accent hover:shadow-gold">
-                    Register for This Event
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+                  
+                  <Link to="/register">
+                    <Button className="w-full bg-gradient-gold text-accent hover:shadow-gold text-lg py-6 rounded-xl font-semibold group-hover:scale-105 transition-transform duration-300">
+                      Register for This Event
+                    </Button>
+                  </Link>
+                  
+                  {/* Decorative corner accent */}
+                  <div className="absolute bottom-4 right-4 w-16 h-16 border-r-2 border-b-2 border-secondary/30 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                </CardContent>
+              </Card>
+            </ScrollReveal>
           ))}
         </div>
       </div>
