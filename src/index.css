@@ -91,6 +91,83 @@ All colors MUST be HSL.
   }
 
   .hover-lift {
-    @apply transition-all duration-300 hover:-translate-y-2 hover:shadow-elegant;
+    @apply transition-all duration-500 hover:-translate-y-2 hover:shadow-elegant hover:scale-105;
+  }
+
+  .marble-texture {
+    background-image: 
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.03) 10px,
+        rgba(255, 255, 255, 0.03) 20px
+      ),
+      repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 10px,
+        rgba(255, 255, 255, 0.02) 10px,
+        rgba(255, 255, 255, 0.02) 20px
+      );
+  }
+
+  .renaissance-pattern {
+    background-image: radial-gradient(circle at 25px 25px, rgba(218, 165, 32, 0.1) 2%, transparent 0%),
+                      radial-gradient(circle at 75px 75px, rgba(218, 165, 32, 0.1) 2%, transparent 0%);
+    background-size: 100px 100px;
+  }
+
+  .ornate-divider {
+    height: 3px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      hsl(var(--secondary)) 15%,
+      hsl(var(--primary)) 50%,
+      hsl(var(--secondary)) 85%,
+      transparent
+    );
+    position: relative;
+  }
+
+  .ornate-divider::before,
+  .ornate-divider::after {
+    content: '❖';
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    color: hsl(var(--secondary));
+    font-size: 1.5rem;
+  }
+
+  .ornate-divider::before {
+    left: 0;
+  }
+
+  .ornate-divider::after {
+    right: 0;
+  }
+
+  .parallax-slow {
+    transform: translateY(calc(var(--scroll) * 0.5px));
+  }
+
+  .parallax-fast {
+    transform: translateY(calc(var(--scroll) * -0.3px));
+  }
+
+  .glowing-text {
+    text-shadow: 0 0 20px hsl(var(--secondary) / 0.5),
+                 0 0 40px hsl(var(--secondary) / 0.3),
+                 0 0 60px hsl(var(--secondary) / 0.2);
+  }
+
+  .clip-diagonal {
+    clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
+  }
+
+  .clip-chevron {
+    clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
   }
 }

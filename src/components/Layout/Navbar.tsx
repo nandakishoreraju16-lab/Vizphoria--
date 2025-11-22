@@ -23,10 +23,10 @@ const Navbar = () => {
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center space-x-3 group">
-            <div className="w-12 h-12 rounded-full bg-gradient-renaissance flex items-center justify-center">
+            <div className="w-12 h-12 rounded-full bg-gradient-renaissance flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-elegant">
               <span className="text-2xl font-playfair font-bold text-primary-foreground">V</span>
             </div>
-            <span className="text-2xl font-playfair font-bold text-gradient-gold hidden sm:block">
+            <span className="text-2xl font-playfair font-bold text-gradient-gold hidden sm:block group-hover:scale-105 transition-transform duration-300">
               Vizphoria
             </span>
           </Link>
@@ -47,7 +47,7 @@ const Navbar = () => {
               </Link>
             ))}
             <Link to="/register">
-              <Button className="ml-4 bg-gradient-gold text-accent hover:shadow-gold transition-all duration-300">
+              <Button className="ml-4 bg-gradient-gold text-accent hover:shadow-gold transition-all duration-300 font-semibold px-6 rounded-full">
                 Register Now
               </Button>
             </Link>
