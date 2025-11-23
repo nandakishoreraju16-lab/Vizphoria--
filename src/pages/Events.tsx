@@ -82,10 +82,14 @@ const events = [
 
 const Events = () => {
   return (
-    <div className="min-h-screen bg-gradient-subtle py-12 relative overflow-hidden">
-      {/* Background decorative elements */}
-      <div className="absolute top-20 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
-      <div className="absolute bottom-20 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Full page background overlay */}
+      <div className="fixed inset-0 bg-background/95 backdrop-blur-sm -z-10" />
+      
+      <div className="py-12 relative">
+        {/* Background decorative elements */}
+        <div className="absolute top-20 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
@@ -155,7 +159,7 @@ const Events = () => {
                   </div>
                   
                   <Link to="/register">
-                    <Button className="w-full bg-gradient-gold text-accent hover:shadow-gold text-lg py-6 rounded-xl font-semibold group-hover:scale-105 transition-transform duration-300">
+                    <Button className="w-full bg-gradient-gold text-black hover:shadow-gold text-lg py-6 rounded-xl font-bold group-hover:scale-105 transition-transform duration-300">
                       Register for This Event
                     </Button>
                   </Link>
@@ -166,6 +170,7 @@ const Events = () => {
               </Card>
             </ScrollReveal>
           ))}
+        </div>
         </div>
       </div>
     </div>

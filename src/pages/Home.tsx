@@ -17,7 +17,7 @@ const Home = () => {
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-background overflow-x-hidden">
+    <div ref={containerRef} className="min-h-screen overflow-x-hidden">
       <Hero />
 
       {/* Highlights Section */}

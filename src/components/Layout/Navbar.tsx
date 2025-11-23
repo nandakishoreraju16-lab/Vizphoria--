@@ -28,26 +28,21 @@ const Navbar = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav
-      className={`fixed top-0 left-0 w-full z-50 transition-all duration-500 ${scrolled ? "glass-panel py-2" : "bg-transparent py-6"
-        }`}
-    >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav className="fixed top-4 left-1/2 -translate-x-1/2 z-50 w-auto">
+      <div className={`bg-black/30 backdrop-blur-md rounded-lg px-8 py-3 transition-all duration-500 ${scrolled ? 'scale-95' : 'scale-100'}`}>
+      <div className="flex items-center">
         <div className="flex justify-between items-center">
           {/* Logo */}
-          <Link to="/" className="group relative z-50">
-            <div className="flex flex-col items-center">
-              <span className="text-3xl font-playfair font-bold text-foreground tracking-wider group-hover:text-primary transition-colors duration-300">
-                VIZPHORIA
-              </span>
-              <span className="text-[0.6rem] text-primary tracking-[0.3em] uppercase opacity-0 group-hover:opacity-100 transition-all duration-500 -mt-1">
-                Renaissance
-              </span>
-            </div>
+          <Link to="/" className="relative z-50">
+            <img 
+              src="/images/vizphoria-logo.png" 
+              alt="Vizphoria Logo" 
+              className="h-12 w-auto object-contain"
+            />
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-8">
+          <div className="hidden md:flex items-center space-x-6">
             {navItems.map((item) => (
               <Link
                 key={item.path}
@@ -63,7 +58,7 @@ const Navbar = () => {
               </Link>
             ))}
 
-            <div className="ml-4 pl-6 border-l border-white/10 flex flex-col items-start">
+            <div className="ml-4 pl-4 border-l border-white/10 flex flex-col items-start">
               <span className="text-[0.6rem] font-medium text-foreground/60 tracking-widest">ATRIA</span>
               <span className="text-[0.6rem] font-bold text-primary tracking-widest">UNIVERSITY</span>
             </div>
@@ -110,6 +105,7 @@ const Navbar = () => {
           </motion.div>
         )}
       </AnimatePresence>
+      </div>
     </nav>
   );
 };

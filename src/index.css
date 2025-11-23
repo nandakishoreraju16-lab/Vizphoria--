@@ -4,41 +4,56 @@
 
 @layer base {
   :root {
-    /* Deep Renaissance Palette */
-    --background: 240 10% 3.9%; /* Obsidian */
-    --foreground: 45 30% 96%;   /* Marble White */
+    /* Renaissance Color Palette */
+    --background: 25 15% 8%;           /* Deep Umber */
+    --foreground: 45 30% 96%;         /* Parchment White */
 
-    --card: 240 10% 3.9%;
+    --card: 25 15% 10%;               /* Slightly lighter than background */
     --card-foreground: 45 30% 96%;
 
-    --popover: 240 10% 3.9%;
+    --popover: 25 15% 10%;            /* Same as card */
     --popover-foreground: 45 30% 96%;
 
-    --primary: 45 85% 55%;      /* Antique Gold */
-    --primary-foreground: 240 10% 3.9%;
+    --primary: 35 80% 50%;            /* Rich Gold */
+    --primary-foreground: 25 15% 8%;  /* Dark background for contrast */
 
-    --secondary: 345 65% 35%;   /* Deep Crimson */
+    --secondary: 15 70% 40%;          /* Burnt Sienna */
     --secondary-foreground: 45 30% 96%;
 
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
+    --muted: 25 15% 15%;              /* Muted version of background */
+    --muted-foreground: 25 10% 60%;   /* Muted text */
 
-    --accent: 45 85% 55%;
-    --accent-foreground: 240 10% 3.9%;
+    --accent: 35 70% 45%;             /* Darker Gold */
+    --accent-foreground: 45 30% 96%;
 
-    --destructive: 0 62.8% 30.6%;
+    --destructive: 5 80% 40%;         /* Deep Red */
     --destructive-foreground: 45 30% 96%;
 
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 45 85% 55%;
+    --border: 25 15% 20%;             /* Border color */
+    --input: 25 15% 20%;              /* Input fields */
+    --ring: 35 80% 50%;               /* Focus ring - matches primary */
 
     --radius: 0.5rem;
 
-    /* Gradients */
-    --gradient-gold: linear-gradient(135deg, hsl(45 85% 55%), hsl(40 75% 45%));
-    --gradient-crimson: linear-gradient(135deg, hsl(345 65% 35%), hsl(340 60% 25%));
-    --gradient-dark: linear-gradient(to bottom, hsl(240 10% 3.9%), hsl(240 10% 8%));
+    /* Enhanced Gradients */
+    --gradient-gold: linear-gradient(135deg, hsl(35 80% 50%), hsl(30 70% 40%));
+    --gradient-umber: linear-gradient(135deg, hsl(25 25% 15%), hsl(25 30% 10%));
+    --gradient-velvet: linear-gradient(135deg, hsl(350 40% 30%), hsl(340 45% 20%));
+    
+    /* New Gradients */
+    --gradient-renaissance: linear-gradient(
+      135deg,
+      hsl(25 15% 10%) 0%,
+      hsl(25 20% 8%) 50%,
+      hsl(25 15% 5%) 100%
+    );
+    
+    --gradient-gold-text: linear-gradient(
+      to right,
+      hsl(35 80% 60%),
+      hsl(45 90% 70%),
+      hsl(35 80% 60%)
+    );
   }
 }
 

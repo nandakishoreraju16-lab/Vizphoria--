@@ -3,25 +3,32 @@ import { ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import RenaissanceArt from "./3d/RenaissanceArt";
-import VideoBackground from "./VideoBackground";
 
 const Hero = () => {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
-      {/* Animated Background */}
-      <VideoBackground />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image with Overlay */}
+      <div 
+        className="absolute inset-0 w-full h-full bg-cover bg-center bg-no-repeat"
+        style={{
+          backgroundImage: "url('/images/renaissance-bg.jpg')",
+          backgroundSize: 'cover',
+          backgroundPosition: 'center top'
+        }}
+      >
+        {/* Darker overlay for better text contrast */}
+        <div className="absolute inset-0 bg-black/80" />
+      </div>
       
-      {/* Gradient Overlays */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-secondary/20" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(218,165,32,0.1),transparent_50%)]" />
-      
+            {/* Gradient Overlays */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-secondary/10" />
       {/* 3D Element - positioned on the right */}
-      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/3 h-[600px] opacity-60 hidden lg:block">
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/3 h-[600px] opacity-100 hidden lg:block">
         <RenaissanceArt />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 bg-transparent">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Side - Text Content */}
           <motion.div
@@ -40,13 +47,14 @@ const Hero = () => {
               <span className="text-sm font-medium text-primary">Renaissance Reimagined</span>
             </motion.div>
 
-            <div className="space-y-4">
-              <h1 className="text-7xl md:text-8xl font-playfair font-bold leading-none">
-                <span className="block text-foreground">Vizphoria</span>
-                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary to-secondary animate-shimmer bg-[length:200%_100%]">
-                  2025
-                </span>
-              </h1>
+            <div className="space-y-6">
+              <div className="flex flex-col items-start">
+                <img 
+                  src="/images/vizphoria-logo.png" 
+                  alt="Vizphoria" 
+                  className="h-24 md:h-32 w-auto object-contain"
+                />
+              </div>
               
               <p className="text-xl md:text-2xl text-muted-foreground max-w-xl">
                 Where the grandeur of the Renaissance collides with the pulse of Gen Z culture. 

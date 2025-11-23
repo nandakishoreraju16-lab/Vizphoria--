@@ -3,8 +3,16 @@ import { Info } from "lucide-react";
 
 const Register = () => {
   return (
-    <div className="min-h-screen bg-gradient-subtle py-12">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div className="relative min-h-screen overflow-hidden">
+      {/* Full page background overlay */}
+      <div className="fixed inset-0 bg-background/95 backdrop-blur-sm -z-10" />
+      
+      <div className="py-12 relative">
+        {/* Background decorative elements */}
+        <div className="absolute top-20 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+        <div className="absolute bottom-20 left-0 w-96 h-96 bg-secondary/5 rounded-full blur-3xl" />
+      
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative">
         {/* Header */}
         <div className="text-center mb-12 animate-fade-in">
           <h1 className="text-5xl md:text-6xl font-playfair font-bold text-primary mb-4">
@@ -82,6 +90,7 @@ const Register = () => {
             </a>
           </p>
         </div>
+      </div>
       </div>
     </div>
   );
