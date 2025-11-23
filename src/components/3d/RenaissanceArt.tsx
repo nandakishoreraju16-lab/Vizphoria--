@@ -1,140 +1,83 @@
-import { Canvas, useFrame } from '@react-three/fiber';
-import { useRef, Suspense, useState, useEffect } from 'react';
-import { OrbitControls, Environment } from '@react-three/drei';
-import * as THREE from 'three';
+import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion';
 
-// Loading component
-const Loader = () => (
-  <div className="w-full h-full flex items-center justify-center">
-    <div className="animate-pulse">
-      <div className="w-12 h-12 border-4 border-gray-300 border-t-blue-500 rounded-full"></div>
-    </div>
-  </div>
-);
-
-// 3D Model Component
-function RenaissancePainting() {
-  const group = useRef<THREE.Group>(null);
-  const [hovered, setHovered] = useState(false);
-
-  // Smooth animation on each frame
-  useFrame((state) => {
-    if (!group.current) return;
-    
-    // Gentle floating animation
-    group.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.1;
-    group.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
-    
-    // Scale on hover
-    const targetScale = hovered ? 1.1 : 1;
-    group.current.scale.lerp(
-      new THREE.Vector3(targetScale, targetScale, targetScale),
-      0.1
-    );
-  });
-
-  return (
-    <group
-      ref={group}
-      onPointerOver={() => setHovered(true)}
-      onPointerOut={() => setHovered(false)}
-    >
-      {/* Painting Frame */}
-      <mesh castShadow receiveShadow>
-        <boxGeometry args={[2.5, 3.5, 0.2]} />
-        <meshStandardMaterial color="#8B5A2B" metalness={0.1} roughness={0.7} />
-      </mesh>
-      
-      {/* Canvas */}
-      <mesh position={[0, 0, 0.11]}>
-        <planeGeometry args={[2.3, 3.3]} />
-        <meshStandardMaterial 
-          color="#f5f5dc" 
-          roughness={0.8}
-          metalness={0.2}
-        />
-      </mesh>
-      
-      {/* Ornate corners */}
-      {[
-        [-1.2, 1.7, 0.11],
-        [1.2, 1.7, 0.11],
-        [-1.2, -1.7, 0.11],
-        [1.2, -1.7, 0.11],
-      ].map((position, i) => (
-        <mesh key={i} position={position as [number, number, number]}>
-          <sphereGeometry args={[0.1, 8, 8]} />
-          <meshStandardMaterial color="#DAA520" metalness={0.8} roughness={0.2} />
-        </mesh>
-      ))}
-    </group>
-  );
-}
-
-// Main 3D Scene
+// Pure React "3D-ish" Renaissance frame using layered transforms instead of WebGL
 function RenaissanceArt() {
-  const [hasError, setHasError] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-
-  // Simple error boundary effect
-  useEffect(() => {
-    const errorHandler = (error: ErrorEvent) => {
-      console.error('3D Render Error:', error);
-      setHasError(true);
-    };
-
-    window.addEventListener('error', errorHandler);
-    return () => window.removeEventListener('error', errorHandler);
-  }, []);
+  const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
-    // Simulate loading delay
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 1000);
-    return () => clearTimeout(timer);
+    setIsMounted(true);
   }, []);
-
-  if (hasError) {
-    return (
-      <div className="w-full h-full flex items-center justify-center bg-gray-50">
-        <p className="text-gray-500">3D content could not be loaded</p>
-      </div>
-    );
-  }
 
   return (
-    <div className="relative w-full h-full" style={{ width: '100%', height: '100%', minHeight: '400px' }}>
-      {isLoading ? (
-        <div className="w-full h-full flex items-center justify-center">
-          <Loader />
+    <div className="relative w-full h-full min-h-[320px] flex items-center justify-center">
+      {/* Glow background */}
+      <motion.div
+        className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-primary/20 via-background to-secondary/20 blur-3xl"
+        animate={{ opacity: isMounted ? 1 : 0.4, scale: isMounted ? 1 : 0.95 }}
+        transition={{ duration: 1.2, ease: 'easeOut' }}
+      />
+
+      {/* Tilted frame */}
+      <motion.div
+        className="relative w-full max-w-md aspect-[3/4] rounded-[2rem] border border-primary/40 bg-background/80 backdrop-blur-xl overflow-hidden shadow-elegant"
+        initial={{ rotateX: 15, rotateY: -15, opacity: 0, y: 40 }}
+        animate={{ rotateX: 12, rotateY: -18, opacity: 1, y: 0 }}
+        transition={{ duration: 1, ease: 'easeOut' }}
+        whileHover={{ rotateX: 6, rotateY: -6, scale: 1.03 }}
+      >
+        {/* Ornate border */}
+        <div className="absolute inset-0 rounded-[2rem] border border-primary/30" />
+        <div className="absolute inset-3 rounded-[1.5rem] border border-primary/20" />
+
+        {/* Corner orbs */}
+        {["top-4 left-4", "top-4 right-4", "bottom-4 left-4", "bottom-4 right-4"].map((pos, i) => (
+          <motion.div
+            key={pos}
+            className={`absolute ${pos} w-3 h-3 rounded-full bg-primary shadow-gold`}
+            animate={{
+              scale: [1, 1.15, 1],
+              opacity: [0.8, 1, 0.8],
+            }}
+            transition={{ duration: 2 + i * 0.3, repeat: Infinity, ease: 'easeInOut' }}
+          />
+        ))}
+
+        {/* "Painting" layer */}
+        <div className="absolute inset-6 rounded-[1.25rem] bg-gradient-to-br from-primary/20 via-background to-secondary/30 overflow-hidden">
+          {/* Abstract renaissance shapes */}
+          <motion.div
+            className="absolute -left-10 -top-16 w-40 h-40 rounded-full bg-primary/25 blur-xl"
+            animate={{ x: [0, 10, -10, 0], y: [0, -10, 10, 0] }}
+            transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }}
+          />
+          <motion.div
+            className="absolute -right-12 bottom-0 w-48 h-48 rounded-full bg-secondary/25 blur-xl"
+            animate={{ x: [0, -15, 15, 0], y: [0, 10, -10, 0] }}
+            transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }}
+          />
+
+          {/* Central bust silhouette hint */}
+          <motion.div
+            className="absolute inset-10 flex items-center justify-center"
+            animate={{ y: [0, -4, 0] }}
+            transition={{ duration: 6, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <div className="w-32 h-40 rounded-full border border-primary/40 bg-background/60 backdrop-blur-md flex items-center justify-center">
+              <div className="w-20 h-24 rounded-full bg-gradient-to-b from-primary/60 to-secondary/60 opacity-80" />
+            </div>
+          </motion.div>
+
+          {/* Grain/noise overlay */}
+          <div className="absolute inset-0 opacity-40 mix-blend-soft-light bg-[radial-gradient(circle_at_0_0,rgba(255,255,255,0.25),transparent_60%),radial-gradient(circle_at_100%_0,rgba(0,0,0,0.35),transparent_55%)]" />
         </div>
-      ) : (
-        <Canvas 
-          camera={{ position: [0, 0, 5], fov: 50 }}
-          gl={{ antialias: true, alpha: true }}
-          style={{
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'transparent',
-          }}
-        >
-          <Suspense fallback={null}>
-            <ambientLight intensity={0.5} />
-            <directionalLight position={[10, 10, 5]} intensity={0.8} />
-            <OrbitControls 
-              enableZoom={false}
-              enablePan={false}
-              maxPolarAngle={Math.PI / 1.5}
-              minPolarAngle={Math.PI / 3}
-              enableDamping
-              dampingFactor={0.05}
-            />
-            <RenaissancePainting />
-            <Environment preset="sunset" />
-          </Suspense>
-        </Canvas>
-      )}
+
+        {/* Bottom label */}
+        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 px-6 py-2 rounded-full bg-background/80 border border-primary/30 backdrop-blur-md flex items-center gap-2 text-xs tracking-[0.25em] uppercase text-muted-foreground">
+          <span className="w-1.5 h-1.5 rounded-full bg-primary" />
+          Renaissance Portal
+        </div>
+      </motion.div>
     </div>
   );
 }
