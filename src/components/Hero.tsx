@@ -92,8 +92,8 @@ const Hero = () => {
               className="flex gap-8 pt-8"
             >
               {[
-                { value: "5000+", label: "Participants" },
-                { value: "25+", label: "Events" },
+                { value: "3000+", label: "Participants" },
+                { value: "18+", label: "Events" },
                 { value: "Upto ₹1L", label: "Prize Pool" },
               ].map((stat, index) => (
                 <div key={index} className="text-center">
