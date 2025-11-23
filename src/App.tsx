@@ -20,9 +20,9 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
+      <CustomCursor />
       <BrowserRouter>
         <Layout>
-          <CustomCursor />
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/events" element={<Events />} />
