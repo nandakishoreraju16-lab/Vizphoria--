@@ -2,57 +2,43 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
-
 @layer base {
   :root {
-    /* Renaissance color palette */
-    --background: 35 25% 96%;
-    --foreground: 345 25% 15%;
+    /* Deep Renaissance Palette */
+    --background: 240 10% 3.9%; /* Obsidian */
+    --foreground: 45 30% 96%;   /* Marble White */
 
-    --card: 35 40% 98%;
-    --card-foreground: 345 25% 15%;
+    --card: 240 10% 3.9%;
+    --card-foreground: 45 30% 96%;
 
-    --popover: 35 40% 98%;
-    --popover-foreground: 345 25% 15%;
+    --popover: 240 10% 3.9%;
+    --popover-foreground: 45 30% 96%;
 
-    /* Rich burgundy primary */
-    --primary: 345 65% 35%;
-    --primary-foreground: 35 25% 96%;
+    --primary: 45 85% 55%;      /* Antique Gold */
+    --primary-foreground: 240 10% 3.9%;
 
-    /* Antique gold accent */
-    --secondary: 45 85% 55%;
-    --secondary-foreground: 345 25% 15%;
+    --secondary: 345 65% 35%;   /* Deep Crimson */
+    --secondary-foreground: 45 30% 96%;
 
-    --muted: 35 20% 88%;
-    --muted-foreground: 345 15% 40%;
+    --muted: 240 3.7% 15.9%;
+    --muted-foreground: 240 5% 64.9%;
 
-    /* Deep navy accent */
-    --accent: 220 40% 25%;
-    --accent-foreground: 35 25% 96%;
+    --accent: 45 85% 55%;
+    --accent-foreground: 240 10% 3.9%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 35 25% 96%;
+    --destructive: 0 62.8% 30.6%;
+    --destructive-foreground: 45 30% 96%;
 
-    --border: 35 25% 85%;
-    --input: 35 25% 85%;
-    --ring: 345 65% 35%;
+    --border: 240 3.7% 15.9%;
+    --input: 240 3.7% 15.9%;
+    --ring: 45 85% 55%;
 
     --radius: 0.5rem;
 
-    /* Renaissance gradient overlays */
-    --gradient-renaissance: linear-gradient(135deg, hsl(345 65% 35% / 0.95), hsl(220 40% 25% / 0.95));
+    /* Gradients */
     --gradient-gold: linear-gradient(135deg, hsl(45 85% 55%), hsl(40 75% 45%));
-    --gradient-subtle: linear-gradient(180deg, hsl(35 40% 98%), hsl(35 25% 96%));
-    
-    /* Elegant shadows */
-    --shadow-elegant: 0 10px 40px -10px hsl(345 65% 35% / 0.25);
-    --shadow-gold: 0 5px 25px hsl(45 85% 55% / 0.3);
-
-    /* Smooth transitions */
-    --transition-smooth: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    --gradient-crimson: linear-gradient(135deg, hsl(345 65% 35%), hsl(340 60% 25%));
+    --gradient-dark: linear-gradient(to bottom, hsl(240 10% 3.9%), hsl(240 10% 8%));
   }
 }
 
@@ -60,114 +46,41 @@ All colors MUST be HSL.
   * {
     @apply border-border;
   }
-
   body {
     @apply bg-background text-foreground;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-family: 'Inter', sans-serif;
+    cursor: none; /* Hide default cursor for custom one */
   }
-
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Playfair Display', serif;
   }
 }
 
 @layer utilities {
-  .ornate-border {
-    @apply relative;
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 bg-clip-text text-transparent;
   }
   
-  .ornate-border::before {
-    content: '';
-    @apply absolute inset-0 border-2 border-secondary/30;
-    clip-path: polygon(
-      0 8px, 8px 0, calc(100% - 8px) 0, 100% 8px,
-      100% calc(100% - 8px), calc(100% - 8px) 100%,
-      8px 100%, 0 calc(100% - 8px)
-    );
+  .glass-panel {
+    @apply bg-black/30 backdrop-blur-md border border-white/10 shadow-xl;
   }
 
-  .text-gradient-gold {
-    @apply bg-gradient-to-r from-secondary to-yellow-600 bg-clip-text text-transparent;
+  .neon-glow {
+    text-shadow: 0 0 10px rgba(255, 215, 0, 0.5), 0 0 20px rgba(255, 215, 0, 0.3);
   }
 
-  .hover-lift {
-    @apply transition-all duration-500 hover:-translate-y-2 hover:shadow-elegant hover:scale-105;
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
   }
-
-  .marble-texture {
-    background-image: 
-      repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 10px,
-        rgba(255, 255, 255, 0.03) 10px,
-        rgba(255, 255, 255, 0.03) 20px
-      ),
-      repeating-linear-gradient(
-        -45deg,
-        transparent,
-        transparent 10px,
-        rgba(255, 255, 255, 0.02) 10px,
-        rgba(255, 255, 255, 0.02) 20px
-      );
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--background));
   }
-
-  .renaissance-pattern {
-    background-image: radial-gradient(circle at 25px 25px, rgba(218, 165, 32, 0.1) 2%, transparent 0%),
-                      radial-gradient(circle at 75px 75px, rgba(218, 165, 32, 0.1) 2%, transparent 0%);
-    background-size: 100px 100px;
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted));
+    border-radius: 4px;
   }
-
-  .ornate-divider {
-    height: 3px;
-    background: linear-gradient(
-      to right,
-      transparent,
-      hsl(var(--secondary)) 15%,
-      hsl(var(--primary)) 50%,
-      hsl(var(--secondary)) 85%,
-      transparent
-    );
-    position: relative;
-  }
-
-  .ornate-divider::before,
-  .ornate-divider::after {
-    content: '❖';
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    color: hsl(var(--secondary));
-    font-size: 1.5rem;
-  }
-
-  .ornate-divider::before {
-    left: 0;
-  }
-
-  .ornate-divider::after {
-    right: 0;
-  }
-
-  .parallax-slow {
-    transform: translateY(calc(var(--scroll) * 0.5px));
-  }
-
-  .parallax-fast {
-    transform: translateY(calc(var(--scroll) * -0.3px));
-  }
-
-  .glowing-text {
-    text-shadow: 0 0 20px hsl(var(--secondary) / 0.5),
-                 0 0 40px hsl(var(--secondary) / 0.3),
-                 0 0 60px hsl(var(--secondary) / 0.2);
-  }
-
-  .clip-diagonal {
-    clip-path: polygon(0 5%, 100% 0, 100% 95%, 0 100%);
-  }
-
-  .clip-chevron {
-    clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--primary));
   }
 }
