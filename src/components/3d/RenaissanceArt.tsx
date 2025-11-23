@@ -1,8 +1,7 @@
-import { Canvas } from '@react-three/fiber';
+import { Canvas, useFrame } from '@react-three/fiber';
 import { useRef, Suspense, useState, useEffect } from 'react';
 import { OrbitControls, Environment } from '@react-three/drei';
 import * as THREE from 'three';
-import { useSpring, animated } from '@react-spring/three';
 
 // Loading component
 const Loader = () => (
@@ -16,53 +15,58 @@ const Loader = () => (
 // 3D Model Component
 function RenaissancePainting() {
   const group = useRef<THREE.Group>(null);
-  
-  // Animation on hover
-  const [spring, set] = useSpring(() => ({
-    scale: [1, 1, 1],
-    position: [0, 0, 0],
-    rotation: [0, 0, 0],
-    config: { mass: 1, tension: 500, friction: 40 }
-  }));
+  const [hovered, setHovered] = useState(false);
 
-  // Handle mouse move for parallax effect
-  const handleMouseMove = (e: any) => {
+  // Smooth animation on each frame
+  useFrame((state) => {
     if (!group.current) return;
     
-    const x = (e.clientX / window.innerWidth) * 2 - 1;
-    const y = (e.clientY / window.innerHeight) * 2 - 1;
+    // Gentle floating animation
+    group.current.rotation.y = Math.sin(state.clock.elapsedTime * 0.3) * 0.1;
+    group.current.position.y = Math.sin(state.clock.elapsedTime * 0.5) * 0.1;
     
-    set({
-      rotation: [y * 0.2, x * 0.2, 0],
-      position: [x * 0.05, -y * 0.05, 0]
-    });
-  };
+    // Scale on hover
+    const targetScale = hovered ? 1.1 : 1;
+    group.current.scale.lerp(
+      new THREE.Vector3(targetScale, targetScale, targetScale),
+      0.1
+    );
+  });
 
-  // Create a simple painting frame
   return (
-    <group onPointerMove={handleMouseMove}>
-      <animated.group
-        ref={group}
-        scale={spring.scale as any}
-        position={spring.position as any}
-        rotation={spring.rotation as any}
-      >
-        {/* Painting Frame */}
-        <mesh castShadow receiveShadow>
-          <boxGeometry args={[2.5, 3.5, 0.2]} />
-          <meshStandardMaterial color="#8B5A2B" metalness={0.1} roughness={0.7} />
+    <group
+      ref={group}
+      onPointerOver={() => setHovered(true)}
+      onPointerOut={() => setHovered(false)}
+    >
+      {/* Painting Frame */}
+      <mesh castShadow receiveShadow>
+        <boxGeometry args={[2.5, 3.5, 0.2]} />
+        <meshStandardMaterial color="#8B5A2B" metalness={0.1} roughness={0.7} />
+      </mesh>
+      
+      {/* Canvas */}
+      <mesh position={[0, 0, 0.11]}>
+        <planeGeometry args={[2.3, 3.3]} />
+        <meshStandardMaterial 
+          color="#f5f5dc" 
+          roughness={0.8}
+          metalness={0.2}
+        />
+      </mesh>
+      
+      {/* Ornate corners */}
+      {[
+        [-1.2, 1.7, 0.11],
+        [1.2, 1.7, 0.11],
+        [-1.2, -1.7, 0.11],
+        [1.2, -1.7, 0.11],
+      ].map((position, i) => (
+        <mesh key={i} position={position as [number, number, number]}>
+          <sphereGeometry args={[0.1, 8, 8]} />
+          <meshStandardMaterial color="#DAA520" metalness={0.8} roughness={0.2} />
         </mesh>
-        
-        {/* Canvas */}
-        <mesh position={[0, 0, 0.11]}>
-          <planeGeometry args={[2.3, 3.3]} />
-          <meshStandardMaterial 
-            color="#f5f5dc" 
-            roughness={0.8}
-            metalness={0.2}
-          />
-        </mesh>
-      </animated.group>
+      ))}
     </group>
   );
 }
