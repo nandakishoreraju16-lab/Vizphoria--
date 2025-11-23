@@ -60,7 +60,7 @@ const Home = () => {
               {
                 icon: <Trophy className="w-12 h-12" />,
                 title: "Epic Competitions",
-                description: "Battle it out in 50+ events. From classical arts to digital innovation, every talent finds its stage.",
+                description: "Battle it out in 25+ events. From classical arts to digital innovation, every talent finds its stage.",
                 delay: 0,
                 gradient: "from-primary/20 to-primary/5"
               },
@@ -73,8 +73,8 @@ const Home = () => {
               },
               {
                 icon: <Calendar className="w-12 h-12" />,
-                title: "3 Days of Pure Energy",
-                description: "72 hours of non-stop entertainment, learning, performances, and cultural explosion. Sleep is for later.",
+                title: "4 Days of Pure Energy",
+                description: "96 hours of non-stop entertainment, learning, performances, and cultural explosion. Sleep is for later.",
                 delay: 0.4,
                 gradient: "from-accent/20 to-accent/5"
               }
