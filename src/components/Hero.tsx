@@ -1,116 +1,130 @@
-import { useRef, useMemo } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { Points, PointMaterial } from '@react-three/drei';
-import * as random from 'maath/random/dist/maath-random.esm';
-import { motion } from 'framer-motion';
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
-
-function Stars(props: any) {
-    const ref = useRef<any>();
-    const sphere = useMemo(() => random.inSphere(new Float32Array(5000), { radius: 1.5 }), []);
-
-    useFrame((state, delta) => {
-        if (ref.current) {
-            ref.current.rotation.x -= delta / 10;
-            ref.current.rotation.y -= delta / 15;
-        }
-    });
-
-    return (
-        <group rotation={[0, 0, Math.PI / 4]}>
-            <Points ref={ref} positions={sphere} stride={3} frustumCulled={false} {...props}>
-                <PointMaterial
-                    transparent
-                    color="#ffa500"
-                    size={0.005}
-                    sizeAttenuation={true}
-                    depthWrite={false}
-                />
-            </Points>
-        </group>
-    );
-}
+import { motion } from "framer-motion";
+import RenaissanceArt from "./3d/RenaissanceArt";
+import VideoBackground from "./VideoBackground";
 
 const Hero = () => {
-    return (
-        <section className="relative h-screen w-full overflow-hidden bg-background flex items-center justify-center">
-            {/* 3D Background */}
-            <div className="absolute inset-0 z-0">
-                <Canvas camera={{ position: [0, 0, 1] }}>
-                    <Stars />
-                </Canvas>
-            </div>
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background">
+      {/* Animated Background */}
+      <VideoBackground />
+      
+      {/* Gradient Overlays */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-secondary/20" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(218,165,32,0.1),transparent_50%)]" />
+      
+      {/* 3D Element - positioned on the right */}
+      <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1/3 h-[600px] opacity-60 hidden lg:block">
+        <RenaissanceArt />
+      </div>
 
-            {/* Overlay Gradient */}
-            <div className="absolute inset-0 bg-gradient-radial from-transparent via-background/50 to-background z-0 pointer-events-none" />
-
-            {/* Content */}
-            <div className="relative z-10 text-center px-4 max-w-5xl mx-auto">
-                <motion.div
-                    initial={{ opacity: 0, y: 50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 1, ease: "easeOut" }}
-                >
-                    <div className="inline-block mb-4 px-6 py-2 rounded-full border border-primary/30 bg-primary/10 backdrop-blur-sm">
-                        <span className="text-primary text-sm font-medium tracking-[0.2em] uppercase">
-                            The Renaissance Awaits
-                        </span>
-                    </div>
-
-                    <h1 className="text-6xl md:text-8xl lg:text-9xl font-playfair font-bold mb-6 tracking-tight">
-                        <span className="block text-foreground mix-blend-difference">VIZPHORIA</span>
-                        <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-yellow-200 to-primary bg-[length:200%_auto] animate-shimmer">
-                            2025
-                        </span>
-                    </h1>
-
-                    <p className="text-xl md:text-2xl text-muted-foreground max-w-2xl mx-auto mb-10 leading-relaxed">
-                        Experience the rebirth of art, culture, and innovation.
-                        A three-day spectacle of creativity and competition.
-                    </p>
-
-                    <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-                        <Link to="/register">
-                            <Button
-                                size="lg"
-                                className="bg-primary text-primary-foreground hover:bg-primary/90 text-lg px-8 py-6 rounded-full group relative overflow-hidden"
-                            >
-                                <span className="relative z-10 flex items-center gap-2 font-semibold">
-                                    Register Now <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                </span>
-                                <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300" />
-                            </Button>
-                        </Link>
-
-                        <Link to="/events">
-                            <Button
-                                variant="outline"
-                                size="lg"
-                                className="border-primary/50 text-primary hover:bg-primary/10 text-lg px-8 py-6 rounded-full backdrop-blur-sm"
-                            >
-                                <span className="flex items-center gap-2">
-                                    <Sparkles className="w-5 h-5" /> Explore Events
-                                </span>
-                            </Button>
-                        </Link>
-                    </div>
-                </motion.div>
-            </div>
-
-            {/* Scroll Indicator */}
+      {/* Content */}
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Left Side - Text Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
+          >
             <motion.div
-                className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 1.5, duration: 1 }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20"
             >
-                <span className="text-xs text-muted-foreground tracking-widest uppercase">Scroll</span>
-                <div className="w-[1px] h-16 bg-gradient-to-b from-primary to-transparent" />
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium text-primary">Renaissance Reimagined</span>
             </motion.div>
-        </section>
-    );
+
+            <div className="space-y-4">
+              <h1 className="text-7xl md:text-8xl font-playfair font-bold leading-none">
+                <span className="block text-foreground">Vizphoria</span>
+                <span className="block text-transparent bg-clip-text bg-gradient-to-r from-primary via-primary to-secondary animate-shimmer bg-[length:200%_100%]">
+                  2025
+                </span>
+              </h1>
+              
+              <p className="text-xl md:text-2xl text-muted-foreground max-w-xl">
+                Where the grandeur of the Renaissance collides with the pulse of Gen Z culture. 
+                Three days. Infinite possibilities.
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-4">
+              <Link to="/register">
+                <Button 
+                  size="lg" 
+                  className="group bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-6 text-lg rounded-full font-bold transition-all hover:scale-105 hover:shadow-2xl hover:shadow-primary/50"
+                >
+                  Join the Renaissance
+                  <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+              
+              <Link to="/events">
+                <Button 
+                  size="lg" 
+                  variant="outline"
+                  className="px-8 py-6 text-lg rounded-full font-bold border-2 border-primary/30 hover:border-primary hover:bg-primary/5 transition-all"
+                >
+                  Explore Events
+                </Button>
+              </Link>
+            </div>
+
+            {/* Stats */}
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+              className="flex gap-8 pt-8"
+            >
+              {[
+                { value: "5000+", label: "Participants" },
+                { value: "50+", label: "Events" },
+                { value: "₹25L+", label: "Prizes" },
+              ].map((stat, index) => (
+                <div key={index} className="text-center">
+                  <div className="text-3xl font-playfair font-bold text-primary">{stat.value}</div>
+                  <div className="text-sm text-muted-foreground uppercase tracking-wider">{stat.label}</div>
+                </div>
+              ))}
+            </motion.div>
+          </motion.div>
+
+          {/* Right Side - 3D Element on Mobile */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="relative lg:hidden h-[400px]"
+          >
+            <RenaissanceArt />
+          </motion.div>
+        </div>
+      </div>
+
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1 }}
+        className="absolute bottom-8 left-1/2 -translate-x-1/2"
+      >
+        <motion.div
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 1.5, repeat: Infinity }}
+          className="w-6 h-10 border-2 border-primary/50 rounded-full flex items-start justify-center p-2"
+        >
+          <motion.div className="w-1.5 h-1.5 bg-primary rounded-full" />
+        </motion.div>
+      </motion.div>
+    </section>
+  );
 };
 
 export default Hero;

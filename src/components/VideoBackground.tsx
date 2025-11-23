@@ -1,130 +1,81 @@
-import { useState, useEffect, useRef } from 'react';
-import YouTube from 'react-youtube';
-import { Play, Pause, Maximize2 } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useRef } from 'react';
 
-interface VideoBackgroundProps {
-  videoId: string;
-  isVisible: boolean;
-  onTogglePlay: (isPlaying: boolean) => void;
-  onFullscreen: () => void;
-}
+const VideoBackground = () => {
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
-const VideoBackground = ({ 
-  videoId, 
-  isVisible, 
-  onTogglePlay, 
-  onFullscreen 
-}: VideoBackgroundProps) => {
-  const [isPlaying, setIsPlaying] = useState(false);
-  const [isHovered, setIsHovered] = useState(false);
-  const playerRef = useRef<any>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const opts = {
-    height: '100%',
-    width: '100%',
-    playerVars: {
-      autoplay: 1,
-      controls: 0,
-      disablekb: 1,
-      fs: 0,
-      loop: 1,
-      modestbranding: 1,
-      rel: 0,
-      showinfo: 0,
-      mute: 1,
-      playsinline: 1,
-    },
-  };
-
-  const handleReady = (event: any) => {
-    playerRef.current = event.target;
-    event.target.playVideo();
-    setIsPlaying(true);
-    onTogglePlay(true);
-  };
-
-  const togglePlay = () => {
-    if (!playerRef.current) return;
-    
-    if (isPlaying) {
-      playerRef.current.pauseVideo();
-    } else {
-      playerRef.current.playVideo();
-    }
-    setIsPlaying(!isPlaying);
-    onTogglePlay(!isPlaying);
-  };
-
-  // Handle keyboard events
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.code === 'Space') {
-        e.preventDefault();
-        togglePlay();
-      } else if (e.key === 'f' || e.key === 'F') {
-        e.preventDefault();
-        onFullscreen();
-      } else if (e.key === 'Escape') {
-        document.exitFullscreen();
-      }
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+
+    const particles: Array<{
+      x: number;
+      y: number;
+      vx: number;
+      vy: number;
+      size: number;
+      opacity: number;
+    }> = [];
+
+    // Create particles
+    for (let i = 0; i < 50; i++) {
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: (Math.random() - 0.5) * 0.5,
+        vy: (Math.random() - 0.5) * 0.5,
+        size: Math.random() * 3 + 1,
+        opacity: Math.random() * 0.5 + 0.2,
+      });
+    }
+
+    function animate() {
+      if (!ctx || !canvas) return;
+      
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Update and draw particles
+      particles.forEach((particle) => {
+        particle.x += particle.vx;
+        particle.y += particle.vy;
+
+        // Wrap around edges
+        if (particle.x < 0) particle.x = canvas.width;
+        if (particle.x > canvas.width) particle.x = 0;
+        if (particle.y < 0) particle.y = canvas.height;
+        if (particle.y > canvas.height) particle.y = 0;
+
+        // Draw particle
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(218, 165, 32, ${particle.opacity})`;
+        ctx.fill();
+      });
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+
+    const handleResize = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [isPlaying]);
-
-  if (!isVisible) return null;
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   return (
-    <div 
-      className="absolute inset-0 w-full h-full overflow-hidden"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      ref={containerRef}
-    >
-      {/* Video Container */}
-      <div className="absolute inset-0 w-full h-full">
-        <YouTube
-          videoId={videoId}
-          opts={opts}
-          onReady={handleReady}
-          className="w-full h-full"
-          iframeClassName="w-full h-full object-cover"
-        />
-      </div>
-
-      {/* Overlay */}
-      <div className="absolute inset-0 bg-black/30 pointer-events-none" />
-
-      {/* Controls */}
-      <AnimatePresence>
-        {isHovered && (
-          <motion.div 
-            className="absolute bottom-6 right-6 flex gap-4 items-center"
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-          >
-            <button
-              onClick={togglePlay}
-              className="p-3 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors pointer-events-auto"
-              aria-label={isPlaying ? 'Pause' : 'Play'}
-            >
-              {isPlaying ? <Pause size={20} /> : <Play size={20} />}
-            </button>
-            <button
-              onClick={onFullscreen}
-              className="p-3 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors pointer-events-auto"
-              aria-label="Fullscreen"
-            >
-              <Maximize2 size={20} />
-            </button>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </div>
+    <canvas
+      ref={canvasRef}
+      className="absolute inset-0 pointer-events-none opacity-30"
+    />
   );
 };
 
