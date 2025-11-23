@@ -58,7 +58,7 @@ const Hero = () => {
               
               <p className="text-xl md:text-2xl text-muted-foreground max-w-xl">
                 Where the grandeur of the Renaissance collides with the pulse of Gen Z culture. 
-                Three days. Infinite possibilities.
+                Four days. Infinite possibilities.
               </p>
             </div>
 
@@ -93,8 +93,8 @@ const Hero = () => {
             >
               {[
                 { value: "5000+", label: "Participants" },
-                { value: "50+", label: "Events" },
-                { value: "₹25L+", label: "Prizes" },
+                { value: "25+", label: "Events" },
+                { value: "Upto ₹1L", label: "Prize Pool" },
               ].map((stat, index) => (
                 <div key={index} className="text-center">
                   <div className="text-3xl font-playfair font-bold text-primary">{stat.value}</div>

@@ -140,9 +140,9 @@ const Home = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { number: "5000+", label: "Participants", sublabel: "Creative Minds" },
-              { number: "50+", label: "Events", sublabel: "Epic Competitions" },
-              { number: "₹25L+", label: "Prize Pool", sublabel: "Win Big" },
-              { number: "3", label: "Days", sublabel: "Non-Stop Action" }
+              { number: "25+", label: "Events", sublabel: "Epic Competitions" },
+              { number: "Upto ₹1L+", label: "Prize Pool", sublabel: "Win Big" },
+              { number: "4", label: "Days", sublabel: "Non-Stop Action" }
             ].map((stat, index) => (
               <ScrollReveal key={index} delay={index * 0.1}>
                 <motion.div 

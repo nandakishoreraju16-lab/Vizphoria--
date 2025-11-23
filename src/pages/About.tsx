@@ -95,8 +95,8 @@ const About = () => {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
               { number: "5000+", label: "Participants" },
-              { number: "50+", label: "Events" },
-              { number: "₹25L+", label: "Prize Money" },
+              { number: "25+", label: "Events" },
+              { number: "₹2L+", label: "Prize Money" },
               { number: "3", label: "Days of Fun" }
             ].map((stat, index) => (
               <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
