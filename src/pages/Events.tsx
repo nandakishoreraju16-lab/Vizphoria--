@@ -25,6 +25,13 @@ import OrnamentalDivider from "@/components/OrnamentalDivider";
 const GOOGLE_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLScALuMAB-xvHMYo66rUBkZPN-Qb5U0KwIKLBzA7g6VTwVqlHg/viewform?embedded=true";
 
+// 🔹 Separate placeholders for special-event forms
+//    Replace these with the actual embed URLs when you create separate forms.
+const GOOGLE_FORM_VISITOR_PASS = GOOGLE_FORM_URL;
+const GOOGLE_FORM_DJ_NIGHT = GOOGLE_FORM_URL;
+const GOOGLE_FORM_CONTINGENT = GOOGLE_FORM_URL;
+const GOOGLE_FORM_OPEN_MIC = GOOGLE_FORM_URL;
+
 interface SubEvent {
   id: string;
   name: string;
@@ -71,8 +78,8 @@ const Events = () => {
     { id: "special", name: "Special Events" },
   ];
 
-  // All sub-events currently use the SAME Google Form URL.
-  // If you create separate forms later, just change formUrl for that sub-event.
+  // All sub-events currently use the SAME Google Form URL by default.
+  // For special events we override with specific formUrl constants.
   const events: EventCategory[] = [
     {
       id: "debate-events",
@@ -321,13 +328,16 @@ const Events = () => {
         },
       ],
     },
+
+    // ===== SPECIAL EVENTS AS SEPARATE CARDS =====
+
     {
-      id: "special-events",
-      name: "Special Events & Passes",
+      id: "open-mic-event",
+      name: "Open Mic",
       club: "special",
-      icon: "✨",
+      icon: "🎤",
       description:
-        "Open mic, entry passes and DJ night — chill events open to everyone.",
+        "Showcase your talent – stand-up, poetry, singing, rap, beatboxing, storytelling and more.",
       subEvents: [
         {
           id: "open-mic",
@@ -335,33 +345,75 @@ const Events = () => {
           fee: 0,
           rules: [
             "Open to all – solo or group performances.",
-            "Do whatever you want: music, poetry, stand-up, beatboxing, etc.",
-            "Express your talent and entertain the crowd.",
-            "Keep your content respectful and crowd-friendly.",
+            "Any talent is allowed: music, poetry, stand-up, beatboxing, etc.",
+            "Content must be respectful and crowd-friendly.",
+            "Time limits may be applied depending on entries.",
           ],
-          formUrl: GOOGLE_FORM_URL,
+          formUrl: GOOGLE_FORM_OPEN_MIC, // change later if you create a dedicated form
         },
+      ],
+    },
+    {
+      id: "visitor-pass-event",
+      name: "Visitor Pass",
+      club: "special",
+      icon: "🎟️",
+      description:
+        "Single registration that gives you access to all four days of Vizphoria, including DJ Night.",
+      subEvents: [
         {
-          id: "three-day-entry-pass",
-          name: "3-Day Entry Ticket",
+          id: "visitor-pass",
+          name: "Visitor Pass",
           fee: 99,
           rules: [
-            "Entry access for all three days of Vizphoria.",
-            "Day 1 and Day 2 are free; the ₹99 covers your Day 3 entry.",
+            "Entry access for all four days of Vizphoria.",
+            "Includes Day 1, Day 2, Day 3 and Day 4 (DJ Night).",
             "Pass is non-transferable. ID may be checked at the gate.",
           ],
-          formUrl: GOOGLE_FORM_URL,
+          formUrl: GOOGLE_FORM_VISITOR_PASS,
         },
+      ],
+    },
+    {
+      id: "dj-night-event",
+      name: "DJ Night – 19 December",
+      club: "special",
+      icon: "🎧",
+      description:
+        "High-energy DJ night to close the fest with a bang. Registration helps us manage capacity.",
+      subEvents: [
         {
           id: "dj-night-19",
           name: "DJ Night – 19 December",
           fee: 0,
           rules: [
-            "Entry for DJ night on 19 December.",
+            "Entry for DJ Night on 19 December.",
             "Participation/entry is free, but registration is required for headcount.",
             "Bring your college ID or valid ID proof.",
           ],
-          formUrl: GOOGLE_FORM_URL,
+          formUrl: GOOGLE_FORM_DJ_NIGHT,
+        },
+      ],
+    },
+    {
+      id: "contingent-event",
+      name: "Contingent Registration",
+      club: "special",
+      icon: "🏅",
+      description:
+        "Register your college contingent once and compete across multiple events.",
+      subEvents: [
+        {
+          id: "contingent-registration",
+          name: "Contingent Registration",
+          fee: 7499,
+          rules: [
+            "One College – One Registration (only one contingent per college).",
+            "For every event only one team from the contingent can participate.",
+            "Team should contain a minimum of 8 members.",
+            "Contingent fee: ₹7,499 per college.",
+          ],
+          formUrl: GOOGLE_FORM_CONTINGENT,
         },
       ],
     },
@@ -392,9 +444,14 @@ const Events = () => {
                 Experience Excellence
               </span>
             </div>
-            <h1 className="text-5xl md:text-7xl font-['Playfair_Display'] font-black text-[#660000] mb-4">
+
+            {/* FESTIVAL EVENTS – GOLD GRADIENT + SPARKLES */}
+            <h1 className="text-5xl md:text-7xl font-['Playfair_Display'] font-black text-transparent bg-clip-text bg-gradient-to-r from-[#C9A227] via-[#F5D68A] to-[#C9A227] mb-4 flex items-center justify-center gap-3">
+              <Sparkles className="w-7 h-7 text-[#F5D68A] hidden sm:inline" />
               Festival Events
+              <Sparkles className="w-7 h-7 text-[#F5D68A] hidden sm:inline" />
             </h1>
+
             <p className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto">
               Open a category, pick a sub-event and fill the registration form
               right here.
@@ -416,7 +473,7 @@ const Events = () => {
                 onClick={() => setActiveClub(club.id)}
                 className={`px-5 md:px-6 py-2.5 md:py-3 rounded-full text-sm md:text-base font-['EB_Garamond'] border-2 transition-all duration-300 ${activeClub === club.id
                     ? "bg-[#660000] text-white border-[#C9A227] shadow-lg scale-105"
-                    : "bg-white text-[#660000] border-[#C9A227]/40 hover:border-[#C9A227] hover:shadow-md"
+                    : "bg-white text-[#C9A227] border-[#C9A227]/40 hover:border-[#C9A227] hover:shadow-md"
                   }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -448,7 +505,9 @@ const Events = () => {
                         <div className="flex items-center gap-1">
                           <Sparkles className="w-4 h-4" />
                           <span className="text-sm md:text-base">
-                            {minFee === 0 ? "Includes Free Events" : `From ₹${minFee}`}
+                            {minFee === 0
+                              ? "Includes Free Events"
+                              : `From ₹${minFee}`}
                           </span>
                         </div>
                         <span className="text-[10px] md:text-xs text-muted-foreground">
@@ -476,10 +535,15 @@ const Events = () => {
                   </CardHeader>
 
                   <CardContent className="relative">
-                    <div className="space-y-2 mb-6 text-sm font-['EB_Garamond'] text-[#4A0000]/90">
+                    {/* WHAT'S INSIDE – GOLD + WHITE */}
+                    <div className="space-y-2 mb-6 text-sm font-['EB_Garamond'] text-[#F5D68A]">
                       <p>
-                        <span className="font-semibold">What’s inside:</span>{" "}
-                        {event.subEvents.map((s) => s.name).join(" • ")}
+                        <span className="font-semibold text-[#C9A227]">
+                          What’s inside:
+                        </span>{" "}
+                        <span className="text-white">
+                          {event.subEvents.map((s) => s.name).join(" • ")}
+                        </span>
                       </p>
                     </div>
 
