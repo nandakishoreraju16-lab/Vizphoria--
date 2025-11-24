@@ -21,16 +21,15 @@ import {
 import ScrollReveal from "@/components/ScrollReveal";
 import OrnamentalDivider from "@/components/OrnamentalDivider";
 
-// ✅ One central Google Form for all registrations (you can change later)
+// ✅ Main Google Form used by most events (you can change later)
 const GOOGLE_FORM_URL =
   "https://docs.google.com/forms/d/e/1FAIpQLScALuMAB-xvHMYo66rUBkZPN-Qb5U0KwIKLBzA7g6VTwVqlHg/viewform?embedded=true";
 
-// 🔹 Separate placeholders for special-event forms
-//    Replace these with the actual embed URLs when you create separate forms.
+// 🔹 Separate forms for special events (replace when you create real embeds)
 const GOOGLE_FORM_VISITOR_PASS = GOOGLE_FORM_URL;
 const GOOGLE_FORM_DJ_NIGHT = GOOGLE_FORM_URL;
-const GOOGLE_FORM_CONTINGENT = GOOGLE_FORM_URL;
-const GOOGLE_FORM_OPEN_MIC = GOOGLE_FORM_URL;
+const GOOGLE_FORM_CONTINGENT =
+  "https://docs.google.com/forms/d/e/1FAIpQLSdgwRx8iBCBN0mKuKhDH5limeyjmrQUx5LDRD9Nc5gw56-Hvw/viewform?embedded=true";
 
 interface SubEvent {
   id: string;
@@ -39,7 +38,7 @@ interface SubEvent {
   slots?: number;
   rules: string[];
   poc?: { name: string; phone: string };
-  formUrl?: string; // Google Form URL for this sub-event
+  formUrl?: string;
 }
 
 interface EventCategory {
@@ -78,9 +77,8 @@ const Events = () => {
     { id: "special", name: "Special Events" },
   ];
 
-  // All sub-events currently use the SAME Google Form URL by default.
-  // For special events we override with specific formUrl constants.
   const events: EventCategory[] = [
+    // ===== DEBATE =====
     {
       id: "debate-events",
       name: "Open for All (Debate)",
@@ -118,6 +116,8 @@ const Events = () => {
         },
       ],
     },
+
+    // ===== FASHION =====
     {
       id: "fashion-events",
       name: "Fashion & Runway",
@@ -154,6 +154,8 @@ const Events = () => {
         },
       ],
     },
+
+    // ===== DANCE =====
     {
       id: "dance-events",
       name: "Dance Arena",
@@ -203,6 +205,8 @@ const Events = () => {
         },
       ],
     },
+
+    // ===== MUSIC =====
     {
       id: "music-events",
       name: "Music & Bands",
@@ -239,6 +243,8 @@ const Events = () => {
         },
       ],
     },
+
+    // ===== MEDIA =====
     {
       id: "media-events",
       name: "Media & Creators",
@@ -276,6 +282,8 @@ const Events = () => {
         },
       ],
     },
+
+    // ===== SPORTS =====
     {
       id: "sports-events",
       name: "Sports Championship",
@@ -329,15 +337,14 @@ const Events = () => {
       ],
     },
 
-    // ===== SPECIAL EVENTS AS SEPARATE CARDS =====
-
+    // ===== SPECIAL: OPEN MIC =====
     {
       id: "open-mic-event",
       name: "Open Mic",
       club: "special",
       icon: "🎤",
       description:
-        "Showcase your talent – stand-up, poetry, singing, rap, beatboxing, storytelling and more.",
+        "A chill stage for poetry, stand-up, music, beatboxing and anything creative. Completely free.",
       subEvents: [
         {
           id: "open-mic",
@@ -345,14 +352,16 @@ const Events = () => {
           fee: 0,
           rules: [
             "Open to all – solo or group performances.",
-            "Any talent is allowed: music, poetry, stand-up, beatboxing, etc.",
-            "Content must be respectful and crowd-friendly.",
-            "Time limits may be applied depending on entries.",
+            "Music, poetry, stand-up, beatboxing, storytelling and more are welcome.",
+            "Keep your content respectful and crowd-friendly.",
+            "Stick to the time limit given by the coordinators.",
           ],
-          formUrl: GOOGLE_FORM_OPEN_MIC, // change later if you create a dedicated form
+          formUrl: GOOGLE_FORM_URL,
         },
       ],
     },
+
+    // ===== SPECIAL: VISITOR PASS =====
     {
       id: "visitor-pass-event",
       name: "Visitor Pass",
@@ -374,6 +383,8 @@ const Events = () => {
         },
       ],
     },
+
+    // ===== SPECIAL: DJ NIGHT =====
     {
       id: "dj-night-event",
       name: "DJ Night – 19 December",
@@ -395,6 +406,8 @@ const Events = () => {
         },
       ],
     },
+
+    // ===== SPECIAL: CONTINGENT REGISTRATION =====
     {
       id: "contingent-event",
       name: "Contingent Registration",
@@ -445,7 +458,6 @@ const Events = () => {
               </span>
             </div>
 
-            {/* FESTIVAL EVENTS – GOLD GRADIENT + SPARKLES */}
             <h1 className="text-5xl md:text-7xl font-['Playfair_Display'] font-black text-transparent bg-clip-text bg-gradient-to-r from-[#C9A227] via-[#F5D68A] to-[#C9A227] mb-4 flex items-center justify-center gap-3">
               <Sparkles className="w-7 h-7 text-[#F5D68A] hidden sm:inline" />
               Festival Events
@@ -535,7 +547,6 @@ const Events = () => {
                   </CardHeader>
 
                   <CardContent className="relative">
-                    {/* WHAT'S INSIDE – GOLD + WHITE */}
                     <div className="space-y-2 mb-6 text-sm font-['EB_Garamond'] text-[#F5D68A]">
                       <p>
                         <span className="font-semibold text-[#C9A227]">
@@ -703,7 +714,6 @@ const Events = () => {
                         </div>
                       </div>
 
-                      {/* Embedded Google Form */}
                       {isActive && (
                         <div className="mt-4 border-t border-[#E0D2B0] pt-3">
                           {sub.formUrl ? (

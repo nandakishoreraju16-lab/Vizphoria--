@@ -94,10 +94,10 @@ const About = () => {
           <h2 className="text-3xl font-playfair font-bold mb-12">Vizphoria by Numbers</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { number: "5000+", label: "Participants" },
-              { number: "25+", label: "Events" },
-              { number: "₹2L+", label: "Prize Money" },
-              { number: "3", label: "Days of Fun" }
+              { number: "3000+", label: "Participants" },
+              { number: "18+", label: "Events" },
+              { number: "₹1L+", label: "Prize Money" },                                                                     
+              { number: "4", label: "Days of Fun" }
             ].map((stat, index) => (
               <div key={index} className="animate-fade-in" style={{ animationDelay: `${index * 0.1}s` }}>
                 <div className="text-4xl md:text-5xl font-playfair font-bold text-secondary mb-2">
