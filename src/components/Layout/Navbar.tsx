@@ -28,12 +28,10 @@ const Navbar = () => {
   const isActive = (path: string) => location.pathname === path;
 
   return (
-    <nav
-      className={`fixed top-4 right-4 z-50 transition-transform duration-300 ${scrolled ? "scale-95" : "scale-100"
-        }`}
-    >
-      {/* MAIN NAV CONTENT (NO BLUR BAR) */}
-      <div className="flex items-center gap-3">
+    <nav className="fixed top-4 right-4 z-50">
+      <div className={`transition-transform duration-300 ${scrolled ? "scale-95" : "scale-100"}`}>
+        {/* MAIN NAV CONTENT (NO BLUR BAR) */}
+        <div className="flex items-center gap-3">
         {/* Logo – always clickable, small on mobile */}
         <Link to="/" className="block">
           <img
@@ -86,6 +84,7 @@ const Navbar = () => {
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
+        </div>
       </div>
 
       {/* MOBILE FULL-SCREEN OVERLAY */}
@@ -95,39 +94,42 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
-            className="fixed inset-0 z-40 bg-background/95 backdrop-blur-xl md:hidden flex flex-col"
+            className="fixed inset-0 z-[60] bg-black/40 backdrop-blur-xl md:hidden flex items-center justify-center px-4 py-6"
           >
-            {/* Top row inside overlay: logo + close button */}
-            <div className="flex items-center justify-between px-6 pt-6">
-              <Link to="/" onClick={() => setIsOpen(false)}>
-                <img
-                  src="/images/vizphoria-logo.png"
-                  alt="Vizphoria Logo"
-                  className="h-10 w-auto object-contain"
-                />
-              </Link>
-              <button
-                onClick={() => setIsOpen(false)}
-                className="p-2 text-foreground hover:text-primary transition-colors"
-              >
-                <X size={26} />
-              </button>
-            </div>
+            {/* Centered frosted panel to separate menu from page */}
+            <div className="w-[92vw] mx-1 bg-background/95 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden max-h-[96vh]">
+              {/* Top row inside panel: logo + close button */}
+              <div className="flex items-center justify-between px-6 py-4 border-b border-border/30">
+                <Link to="/" onClick={() => setIsOpen(false)}>
+                  <img
+                    src="/images/vizphoria-logo.png"
+                    alt="Vizphoria Logo"
+                    className="h-9 w-auto object-contain"
+                  />
+                </Link>
+                <button
+                  onClick={() => setIsOpen(false)}
+                  className="p-2 text-foreground hover:text-primary transition-colors"
+                  aria-label="Close menu"
+                >
+                  <X size={22} />
+                </button>
+              </div>
 
-            {/* Menu items centered on screen */}
-            <div className="flex-1 flex items-center justify-center">
-              <div className="flex flex-col items-center space-y-6">
+              {/* Menu items centered inside panel */}
+              <div className="py-10 px-8 flex flex-col items-center gap-6 overflow-auto max-h-[84vh]">
                 {navItems.map((item, index) => (
                   <motion.div
                     key={item.path}
                     initial={{ opacity: 0, y: 10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: index * 0.07 }}
+                    transition={{ delay: index * 0.06 }}
+                    className="w-full"
                   >
                     <Link
                       to={item.path}
                       onClick={() => setIsOpen(false)}
-                      className={`text-3xl font-playfair font-bold transition-colors ${isActive(item.path)
+                      className={`block w-full text-center text-3xl sm:text-4xl font-playfair font-semibold leading-snug transition-colors ${isActive(item.path)
                           ? "text-primary"
                           : "text-foreground hover:text-primary"
                         }`}

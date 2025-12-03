@@ -26,7 +26,7 @@ function RenaissanceArt() {
 
         {/* Tilted frame - clickable */}
         <motion.div
-          className="relative w-full max-w-md aspect-[3/4] rounded-[2rem] border border-primary/40 bg-background/80 backdrop-blur-xl overflow-hidden shadow-elegant cursor-pointer"
+          className="relative w-full mx-4 max-w-xs sm:max-w-md aspect-[3/4] rounded-[2rem] border border-primary/40 bg-background/80 backdrop-blur-xl overflow-hidden shadow-elegant cursor-pointer mb-8"
           initial={{ rotateX: 15, rotateY: -15, opacity: 0, y: 40 }}
           animate={{ rotateX: 12, rotateY: -18, opacity: 1, y: 0 }}
           transition={{ duration: 1, ease: 'easeOut' }}
@@ -90,7 +90,7 @@ function RenaissanceArt() {
         </div>
 
         {/* Bottom label */}
-        <div className="absolute bottom-6 left-1/2 -translate-x-1/2 px-6 py-2 rounded-full bg-background/80 border border-primary/30 backdrop-blur-md flex items-center gap-2 text-xs tracking-[0.25em] uppercase text-muted-foreground">
+        <div className="relative mt-4 sm:absolute sm:bottom-6 sm:left-1/2 sm:-translate-x-1/2 px-6 py-2 rounded-full bg-background/80 border border-primary/30 backdrop-blur-md flex items-center gap-2 text-xs tracking-[0.25em] uppercase text-muted-foreground">
           <Play className="w-3 h-3 text-primary" />
           Watch Vizphoria
         </div>
