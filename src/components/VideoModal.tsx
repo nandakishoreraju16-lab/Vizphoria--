@@ -52,7 +52,7 @@ const VideoModal = ({ isOpen, videoId, onClose }: VideoModalProps) => {
           
           {/* Video Container - Centered */}
           <div 
-            className="relative w-full max-w-4xl aspect-video z-10"
+            className="relative w-full max-w-4xl max-h-[90vh] aspect-video z-10 overflow-hidden"
             onClick={(e) => e.stopPropagation()}
           >
             <YouTube
@@ -69,7 +69,7 @@ const VideoModal = ({ isOpen, videoId, onClose }: VideoModalProps) => {
                 e.stopPropagation();
                 onClose();
               }}
-              className="absolute -top-12 right-0 p-2 text-white hover:bg-white/20 rounded-full transition-colors"
+              className="absolute top-3 right-3 sm:-top-12 sm:right-0 p-2 text-white hover:bg-white/20 rounded-full transition-colors"
               aria-label="Close"
             >
               <X size={24} />
