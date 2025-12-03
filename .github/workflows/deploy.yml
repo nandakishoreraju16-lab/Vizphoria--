@@ -1,33 +1,41 @@
-name: Deploy Vite React App to Hostinger
+name: Deploy Vite App to Hostinger
 
-    on:
-      push:
-        branches:
-          - main # Or your main branch name
+on:
+  push:
+    branches:
+      - main # Change this to 'master' if that is your default branch
 
-    jobs:
-      deploy:
-        runs-on: ubuntu-latest
-        steps:
-          - name: Checkout code
-            uses: actions/checkout@v3
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
 
-          - name: Set up Node.js
-            uses: actions/setup-node@v3
-            with:
-              node-version: '18' # Or your preferred Node.js version
+      - name: 🟢 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: 'npm'
 
-          - name: Install dependencies
-            run: npm install
+      - name: 📦 Install dependencies
+        run: npm ci
 
-          - name: Build Vite app
-            run: npm run build
+      - name: 🏗 Build Vite App
+        run: npm run build
 
-          - name: Deploy to Hostinger via FTP/SSH
-            uses: SamKirkland/FTP-Deploy-Action@v4.3.0 # Example for FTP, or use an SSH action
-            with:
-              server: ${{ secrets.FTP_SERVER }}
-              username: ${{ secrets.FTP_USERNAME }}
-              password: ${{ secrets.FTP_PASSWORD }}
-              local-dir: ./dist/ # The build output directory
-              server-dir: public_html/your-app-name/ # Or public_html/
+      - name: 📂 Sync files via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # Vite outputs to 'dist/' by default. 
+          # The trailing slash is important!
+          local-dir: ./dist/ 
+          # Hostinger usually requires 'public_html/'. 
+          # If deploying to a subdomain, this might be 'domains/example.com/public_html/'
+          server-dir: ./public_html/
+          protocol: ftp
+          port: 21
