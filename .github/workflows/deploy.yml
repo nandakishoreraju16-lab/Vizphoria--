@@ -1,0 +1,33 @@
+name: Deploy Vite React App to Hostinger
+
+    on:
+      push:
+        branches:
+          - main # Or your main branch name
+
+    jobs:
+      deploy:
+        runs-on: ubuntu-latest
+        steps:
+          - name: Checkout code
+            uses: actions/checkout@v3
+
+          - name: Set up Node.js
+            uses: actions/setup-node@v3
+            with:
+              node-version: '18' # Or your preferred Node.js version
+
+          - name: Install dependencies
+            run: npm install
+
+          - name: Build Vite app
+            run: npm run build
+
+          - name: Deploy to Hostinger via FTP/SSH
+            uses: SamKirkland/FTP-Deploy-Action@v4.3.0 # Example for FTP, or use an SSH action
+            with:
+              server: ${{ secrets.FTP_SERVER }}
+              username: ${{ secrets.FTP_USERNAME }}
+              password: ${{ secrets.FTP_PASSWORD }}
+              local-dir: ./dist/ # The build output directory
+              server-dir: public_html/your-app-name/ # Or public_html/
