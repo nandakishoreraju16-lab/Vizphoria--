@@ -36,6 +36,6 @@ jobs:
           local-dir: ./dist/ 
           # Hostinger usually requires 'public_html/'. 
           # If deploying to a subdomain, this might be 'domains/example.com/public_html/'
-          server-dir: ./
+          server-dir: ./public_html/
           protocol: ftp
           port: 21
