@@ -66,14 +66,13 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {/* Atria tag – right aligned on desktop only */}
-          <div className="ml-3 pl-3 border-l border-white/10 flex flex-col items-start">
-            <span className="text-[0.6rem] font-medium text-foreground/60 tracking-widest">
-              ATRIA
-            </span>
-            <span className="text-[0.6rem] font-bold text-primary tracking-widest">
-              UNIVERSITY
-            </span>
+          {/* Atria logo – right aligned on desktop only */}
+          <div className="ml-3 pl-3 border-l border-white/10">
+            <img
+              src="/images/AU Logo-High-Res.png"
+              alt="ATRIA University Logo"
+              className="h-8 w-auto object-contain"
+            />
           </div>
         </div>
 
