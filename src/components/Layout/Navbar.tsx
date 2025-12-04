@@ -69,7 +69,7 @@ const Navbar = () => {
           {/* Atria logo – right aligned on desktop only */}
           <div className="ml-3 pl-3 border-l border-white/10">
             <img
-              src="/images/AU Logo-High-Res.png"
+              src="/images/AU Logo-High res-24.png"
               alt="ATRIA University Logo"
               className="h-8 w-auto object-contain"
             />
